@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/jaepetto/nbjrnlctl/internal/commands"
+	"github.com/spf13/cobra"
+)
+
+func main() {
+	rootCmd := &cobra.Command{
+		Use:   "nbjrnlctl",
+		Short: "Netbox Journal CLI Tool",
+		Long: `A command-line interface for managing Netbox device journal entries.
+Complete documentation is available at https://github.com/jaepetto/nbjrnlctl`,
+	}
+
+	// Add commands
+	rootCmd.AddCommand(commands.CreateCmd())
+	rootCmd.AddCommand(commands.ReadCmd())
+	rootCmd.AddCommand(commands.UpdateCmd())
+	rootCmd.AddCommand(commands.DeleteCmd())
+	rootCmd.AddCommand(commands.ListCmd())
+	rootCmd.AddCommand(commands.DeviceCmd())
+
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
+		os.Exit(1)
+	}
+}
