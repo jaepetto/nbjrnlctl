@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Comprehensive code assessment documentation
+- Detailed API endpoint documentation
+- Complete developer guide and best practices
+- Documentation directory structure
+
 ### Fixed
 - Journal entry IDs now display correctly in the list command output
 - Fixed ID mapping in GraphQL response parsing for journal entries

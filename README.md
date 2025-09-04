@@ -2,6 +2,9 @@
 
 A command-line interface for managing Netbox device journal entries.
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/jaepetto/nbjrnlctl)](https://goreportcard.com/report/github.com/jaepetto/nbjrnlctl)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## Features
 
 - Create journal entries for devices
@@ -97,9 +100,19 @@ nbjrnlctl delete 456
 nbjrnlctl delete 456 --force
 ```
 
+## Documentation
+
+### User Documentation
+- [README.md](README.md) - This file, containing user guide and installation instructions
+- [CHANGELOG.md](CHANGELOG.md) - Version history and changes
+
+### Developer Documentation
+- [Developer Guide](docs/developer-guide.md) - Comprehensive guide for contributors
+- [API Documentation](docs/api-documentation.md) - Detailed API endpoints and integration
+- [Code Assessment](docs/code-assessment.md) - Technical analysis and code quality review
+
 ## Journal Entry Types
 
 - `info` - General information (default)
 - `success` - Success message
 - `warning` - Warning message
-- `danger` - Error or danger message
