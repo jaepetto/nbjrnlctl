@@ -136,19 +136,3 @@ func getKindEmoji(kind string) string {
 		return "📝"
 	}
 }
-
-// getColorForKind returns ANSI color codes based on entry kind
-func getColorForKind(kind string) string {
-	switch kind {
-	case "Info":
-		return "\x1b[34m" // Blue
-	case "Success":
-		return "\x1b[32m" // Green
-	case "Warning":
-		return "\x1b[33m" // Yellow
-	case "Danger":
-		return "\x1b[31m" // Red
-	default:
-		return "\x1b[37m" // White
-	}
-}

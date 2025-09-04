@@ -32,8 +32,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Shortened date format to MM/DD HH:MM
   - Replaced kind text with emojis (ℹ️ Info, ✅ Success, ⚠️ Warning, 🚨 Danger)
   - Removed comment truncation to show full comments
-  - Added colored output using ANSI escape codes
+  - Added colored output using go-pretty styling
   - Sort entries by creation date (newest first)
+
+### Removed
+- Unused `getColorForKind` function that was replaced with go-pretty styling
 
 ## [1.0.0] - 2025-09-04
 

@@ -64,6 +64,7 @@
 - ✅ Implemented go-pretty library for enhanced table formatting in list command output
 - ✅ Replaced manual ANSI color codes with go-pretty styling for better maintainability
 - ✅ Improved output formatting with rounded table borders and professional appearance
+- ✅ Removed unused `getColorForKind` function that was replaced with go-pretty styling
 
 ## Next Milestones
 1. Add automated testing infrastructure
