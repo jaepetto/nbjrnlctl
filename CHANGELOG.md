@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Detailed API endpoint documentation
 - Complete developer guide and best practices
 - Documentation directory structure
+- Justfile for build automation and development workflow
+
+### Changed
+- Updated justfile build commands to create statically linked binaries for better portability
 
 ### Fixed
 - Journal entry IDs now display correctly in the list command output
