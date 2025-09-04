@@ -23,6 +23,8 @@ Code assessment and documentation completion. This represents the phase where we
 - Replaced manual ANSI color codes with go-pretty styling for better maintainability
 - Improved output formatting with rounded table borders and professional appearance
 - Removed unused `getColorForKind` function that was replaced with go-pretty styling
+- **Constrained table width to 80 characters for better terminal compatibility** - Table output now automatically wraps long text and fits within standard terminal widths
+- **Added horizontal line separators between all rows for improved visual separation and readability**
 
 ## Next Steps
 - Review and validate all created documentation

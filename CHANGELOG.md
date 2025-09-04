@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ID mapping in GraphQL response parsing for journal entries
 - Populated the 'kind' column in journal entry listings by extracting it from the GraphQL 'display' field
 - Improved 'kind' extraction logic to properly handle NetBox display format "YYYY-MM-DD HH:MM (Kind)"
+- **Constrained table width to 80 characters for better terminal compatibility** - Table output now automatically wraps long text and fits within standard terminal widths
 
 ### Changed
 - Enhanced list command output formatting:
@@ -34,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed comment truncation to show full comments
   - Added colored output using go-pretty styling
   - Sort entries by creation date (newest first)
+  - **Added automatic text wrapping and column width constraints for better readability on smaller terminals**
+  - **Added horizontal line separators between all rows for improved visual separation and readability**
 
 ### Removed
 - Unused `getColorForKind` function that was replaced with go-pretty styling

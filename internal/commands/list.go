@@ -76,7 +76,30 @@ func ListCmd() *cobra.Command {
 			// Set table style
 			style := gptable.StyleRounded
 			style.Color.Header = gptext.Colors{gptext.Bold, gptext.FgHiBlue}
+			style.Options.SeparateRows = true // Add horizontal lines between all rows
 			t.SetStyle(style)
+
+			// Configure column widths to fit within 80 characters
+			t.SetColumnConfigs([]gptable.ColumnConfig{
+				{
+					Number:   1,  // Created
+					WidthMax: 11, // MM/DD HH:MM format
+				},
+				{
+					Number:   2,  // Created By
+					WidthMax: 12, // Reasonable username length
+				},
+				{
+					Number:   3, // Kind
+					WidthMax: 2, // Emoji width
+				},
+				{
+					Number:           4,  // Comments
+					WidthMax:         50, // Remaining space for comments (80 - 11 - 12 - 2 - separators - padding)
+					WidthMin:         30, // Minimum width for readability
+					WidthMaxEnforcer: gptext.WrapText,
+				},
+			})
 
 			// Add header
 			t.AppendHeader(gptable.Row{"Created", "Created By", "Kind", "Comments"})
