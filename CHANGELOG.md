@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated justfile build commands to create statically linked binaries for better portability
+- Implemented go-pretty library for enhanced table formatting in list command output
+- Replaced manual ANSI color codes with go-pretty styling for better maintainability
+- Improved output formatting with rounded table borders and professional appearance
 
 ### Fixed
 - Journal entry IDs now display correctly in the list command output

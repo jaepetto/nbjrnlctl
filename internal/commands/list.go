@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"text/tabwriter"
 
 	"github.com/jaepetto/nbjrnlctl/internal/client"
 	"github.com/jaepetto/nbjrnlctl/pkg/utils"
+	gptable "github.com/jedib0t/go-pretty/v6/table"
+	gptext "github.com/jedib0t/go-pretty/v6/text"
 	"github.com/spf13/cobra"
 )
 
@@ -68,10 +69,19 @@ func ListCmd() *cobra.Command {
 				entries = entries[:limit]
 			}
 
-			// Display entries in a table with enhanced formatting
-			w := tabwriter.NewWriter(os.Stdout, 0, 0, 3, ' ', 0)
-			fmt.Fprintln(w, "CREATED\tCREATED BY\tKIND\tCOMMENTS")
+			// Display entries in a table using go-pretty
+			t := gptable.NewWriter()
+			t.SetOutputMirror(os.Stdout)
 
+			// Set table style
+			style := gptable.StyleRounded
+			style.Color.Header = gptext.Colors{gptext.Bold, gptext.FgHiBlue}
+			t.SetStyle(style)
+
+			// Add header
+			t.AppendHeader(gptable.Row{"Created", "Created By", "Kind", "Comments"})
+
+			// Add rows
 			for _, entry := range entries {
 				// Format date as MM/DD HH:MM
 				formattedDate := entry.Created.Format("01/02 15:04")
@@ -79,20 +89,30 @@ func ListCmd() *cobra.Command {
 				// Convert kind to emoji
 				kindEmoji := getKindEmoji(entry.Kind)
 
-				// Apply colors
-				dateColor := getColorForKind(entry.Kind)
-				coloredDate := fmt.Sprintf("%s%s\x1b[0m", dateColor, formattedDate)
-				coloredUser := fmt.Sprintf("\x1b[36m%s\x1b[0m", entry.CreatedBy)
-				coloredKind := fmt.Sprintf("%s%s\x1b[0m", dateColor, kindEmoji)
+				// Apply colors based on kind
+				var dateColor gptext.Colors
+				switch entry.Kind {
+				case "Info":
+					dateColor = gptext.Colors{gptext.FgBlue}
+				case "Success":
+					dateColor = gptext.Colors{gptext.FgGreen}
+				case "Warning":
+					dateColor = gptext.Colors{gptext.FgYellow}
+				case "Danger":
+					dateColor = gptext.Colors{gptext.FgRed}
+				default:
+					dateColor = gptext.Colors{gptext.FgWhite}
+				}
 
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\n",
-					coloredDate,
-					coloredUser,
-					coloredKind,
-					entry.Comments,
-				)
+				// Create styled cells
+				styledDate := gptext.Colors(dateColor).Sprintf("%s", formattedDate)
+				styledUser := gptext.Colors{gptext.FgCyan}.Sprintf("%s", entry.CreatedBy)
+				styledKind := gptext.Colors(dateColor).Sprintf("%s", kindEmoji)
+
+				t.AppendRow(gptable.Row{styledDate, styledUser, styledKind, entry.Comments})
 			}
-			w.Flush()
+
+			t.Render()
 		},
 	}
 
