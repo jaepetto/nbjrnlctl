@@ -67,15 +67,10 @@
 - ✅ Removed unused `getColorForKind` function that was replaced with go-pretty styling
 - ✅ **Constrained table width to 80 characters for better terminal compatibility** - Table output now automatically wraps long text and fits within standard terminal widths
 - ✅ **Added horizontal line separators between all rows for improved visual separation and readability**
+- ✅ **Removed unused command implementations (create, read, update, delete, device) - only list command remains as it's the only implemented verb**
 
 ## Next Milestones
 1. Add automated testing infrastructure
 2. Implement continuous integration
 3. Plan next feature enhancements
 4. Establish release process automation
-
-## Next Milestones
-1. Complete codebase assessment and documentation
-2. Establish development workflow and contribution guidelines
-3. Implement first feature enhancement or bug fix
-4. Add automated testing infrastructure

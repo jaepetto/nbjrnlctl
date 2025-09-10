@@ -17,12 +17,7 @@ Complete documentation is available at https://github.com/jaepetto/nbjrnlctl`,
 	}
 
 	// Add commands
-	rootCmd.AddCommand(commands.CreateCmd())
-	rootCmd.AddCommand(commands.ReadCmd())
-	rootCmd.AddCommand(commands.UpdateCmd())
-	rootCmd.AddCommand(commands.DeleteCmd())
 	rootCmd.AddCommand(commands.ListCmd())
-	rootCmd.AddCommand(commands.DeviceCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err)

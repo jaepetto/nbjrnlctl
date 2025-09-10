@@ -18,7 +18,7 @@ install:
 run:
 	go run ./cmd/nbjrnlctl
 
-# Run with arguments (usage: just run-with-args create --comments "test")
+# Run with arguments (usage: just run-with-args list --limit 5)
 run-with-args *args="":
 	go run ./cmd/nbjrnlctl {{args}}
 
@@ -99,7 +99,5 @@ help:
 	@echo "  help           - Show this help"
 	@echo ""
 	@echo "Application usage examples:"
-	@echo "  just run device                    # Show current device info"
-	@echo "  just run create --comments \"test\"  # Create journal entry"
 	@echo "  just run list                      # List journal entries"
 	@echo "  just run-with-args list --limit 5  # List with arguments"

@@ -74,17 +74,16 @@ Each command is implemented as a separate file with a corresponding function tha
 
 **Example pattern:**
 ```go
-func CreateCmd() *cobra.Command {
-    var comments string
-    var kind string
+func ListCmd() *cobra.Command {
+    var limit int
 
     cmd := &cobra.Command{
-        Use:   "create [device-name]",
-        Short: "Create a journal entry for a device",
+        Use:   "list [device-name]",
+        Short: "List journal entries for a device",
         // ... command implementation
     }
 
-    cmd.Flags().StringVarP(&comments, "comments", "c", "", "Comments for the journal entry")
+    cmd.Flags().IntVarP(&limit, "limit", "l", 0, "Limit the number of entries to display")
     // ... flag definitions
 
     return cmd
@@ -158,9 +157,7 @@ Recommended test directory structure:
 │   ├── client/
 │   │   └── netbox_test.go
 │   ├── commands/
-│   │   ├── create_test.go
-│   │   ├── read_test.go
-│   │   └── ..._test.go
+│   │   └── list_test.go
 │   └── models/
 │       └── journal_test.go
 └── pkg/

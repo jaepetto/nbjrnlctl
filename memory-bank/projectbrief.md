@@ -9,7 +9,7 @@ To provide a streamlined CLI interface for creating, reading, updating, and dele
 ## Key Features
 - Command-line interface for journal management
 - Integration with NetBox API
-- CRUD operations for journal entries
+- List journal entries for devices
 - Device-specific journal operations
 - Configuration management utilities
 

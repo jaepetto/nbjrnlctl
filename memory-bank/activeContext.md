@@ -25,6 +25,7 @@ Code assessment and documentation completion. This represents the phase where we
 - Removed unused `getColorForKind` function that was replaced with go-pretty styling
 - **Constrained table width to 80 characters for better terminal compatibility** - Table output now automatically wraps long text and fits within standard terminal widths
 - **Added horizontal line separators between all rows for improved visual separation and readability**
+- **Removed unused command implementations (create, read, update, delete, device) - only list command remains as it's the only implemented verb**
 
 ## Next Steps
 - Review and validate all created documentation
