@@ -40,10 +40,10 @@ NetBox API → client → models → business logic → command output
 - Graceful degradation when API connectivity is limited
 
 ## Configuration Management
-- Environment variable support for sensitive data
-- Configuration file support for persistent settings
-- Clear precedence hierarchy (env vars > config file > defaults)
-- Validation at startup to prevent runtime configuration errors
+- Environment variable-only configuration for server deployment readiness
+- Required environment variables: `nbjrnlctl_base_url` and `nbjrnlctl_api_key`
+- Fail-fast startup with clear error messages for missing configuration
+- No file-based configuration to simplify deployment and security
 
 ## Extensibility Points
 - New command handlers can be added without modifying core routing

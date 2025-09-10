@@ -1,10 +1,8 @@
 package utils
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -16,60 +14,29 @@ type Config struct {
 	APIToken  string `json:"api_token"`
 }
 
-// LoadConfig loads the configuration from the config file
+// LoadConfig loads the configuration from environment variables
 func LoadConfig() (*Config, error) {
-	// Get home directory
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return nil, err
+	// Load configuration from environment variables
+	netboxURL := os.Getenv("nbjrnlctl_base_url")
+	apiToken := os.Getenv("nbjrnlctl_api_key")
+
+	// Check if required environment variables are set
+	var missingVars []string
+	if netboxURL == "" {
+		missingVars = append(missingVars, "nbjrnlctl_base_url")
+	}
+	if apiToken == "" {
+		missingVars = append(missingVars, "nbjrnlctl_api_key")
 	}
 
-	// Create config directory if it doesn't exist
-	configDir := filepath.Join(homeDir, ".nbjrnlctl")
-	if err := os.MkdirAll(configDir, 0755); err != nil {
-		return nil, err
+	if len(missingVars) > 0 {
+		return nil, fmt.Errorf("missing required environment variables: %s. Please set these variables and try again", strings.Join(missingVars, ", "))
 	}
 
-	// Config file path
-	configFile := filepath.Join(configDir, "config.json")
-
-	// Check if config file exists, create if not
-	if _, err := os.Stat(configFile); os.IsNotExist(err) {
-		return createDefaultConfig(configFile)
-	}
-
-	// Read config file
-	data, err := os.ReadFile(configFile)
-	if err != nil {
-		return nil, err
-	}
-
-	var config Config
-	if err := json.Unmarshal(data, &config); err != nil {
-		return nil, err
-	}
-
-	return &config, nil
-}
-
-// createDefaultConfig creates a default configuration file
-func createDefaultConfig(configFile string) (*Config, error) {
-	config := Config{
-		NetboxURL: "https://netbox.example.com",
-		APIToken:  "your-api-token",
-	}
-
-	data, err := json.MarshalIndent(config, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-
-	if err := os.WriteFile(configFile, data, 0644); err != nil {
-		return nil, err
-	}
-
-	fmt.Printf("Created default config file at %s. Please edit it with your NetBox details.\n", configFile)
-	return &config, nil
+	return &Config{
+		NetboxURL: netboxURL,
+		APIToken:  apiToken,
+	}, nil
 }
 
 // GetHostname returns the hostname of the current machine
@@ -84,7 +51,7 @@ func GetHostname() string {
 		default: // Unix-like systems
 			cmd = exec.Command("hostname")
 		}
-		
+
 		output, err := cmd.Output()
 		if err != nil {
 			return "unknown-host"

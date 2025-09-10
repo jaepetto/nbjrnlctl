@@ -26,6 +26,7 @@ Code assessment and documentation completion. This represents the phase where we
 - **Constrained table width to 80 characters for better terminal compatibility** - Table output now automatically wraps long text and fits within standard terminal widths
 - **Added horizontal line separators between all rows for improved visual separation and readability**
 - **Removed unused command implementations (create, read, update, delete, device) - only list command remains as it's the only implemented verb**
+- **Modified configuration loading to use environment variables only (`nbjrnlctl_base_url` and `nbjrnlctl_api_key`) instead of file-based configuration for better server deployment support**
 
 ## Next Steps
 - Review and validate all created documentation

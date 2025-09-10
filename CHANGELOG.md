@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented go-pretty library for enhanced table formatting in list command output
 - Replaced manual ANSI color codes with go-pretty styling for better maintainability
 - Improved output formatting with rounded table borders and professional appearance
+- **Configuration loading now uses environment variables instead of config file for better server deployment support**
+- **Removed file-based configuration in favor of environment variables `nbjrnlctl_base_url` and `nbjrnlctl_api_key`**
 
 ### Fixed
 - Journal entry IDs now display correctly in the list command output
@@ -41,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Unused `getColorForKind` function that was replaced with go-pretty styling
 - Unused command implementations (create, read, update, delete, device) - only list command remains as it's the only implemented verb
+- **File-based configuration system in favor of environment variable-only configuration**
 
 ## [1.0.0] - 2025-09-04
 
