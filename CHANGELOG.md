@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation review and synchronization
 - Review report documenting the alignment process
 - Updated all documentation to reflect current implementation reality
+- **Fixed GitHub Actions workflow to use modern release creation with proper permissions**
+- **Replaced deprecated `actions/create-release@v1` with GitHub CLI approach**
+- **Updated workflow to trigger releases on tag pushes rather than main branch pushes**
+- **Made build version dynamic based on Git tags for proper version tracking**
 
 ## [1.0.0] - 2025-09-04
 

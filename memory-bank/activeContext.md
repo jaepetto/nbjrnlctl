@@ -18,6 +18,9 @@ Based on git history, the following significant changes have been made:
 - **Added horizontal line separators** - Between all rows for improved visual separation and readability
 - **Added GitHub Actions workflow** - For automated build and test on push to main branch with cross-platform binary builds
 - **Enhanced GitHub Actions workflow** - Added automatic GitHub release creation with pre-built binaries
+- **Fixed GitHub Actions workflow** - Replaced deprecated `actions/create-release@v1` with modern GitHub CLI approach
+- **Updated workflow permissions** - Added proper contents write permissions for release creation
+- **Made build version dynamic** - Updated build processes to use Git tag versions instead of hardcoded versions
 
 ## Next Steps
 - Update all documentation files to accurately reflect current implementation
