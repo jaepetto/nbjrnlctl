@@ -26,16 +26,12 @@ run-with-args *args="":
 
 # Build for all supported platforms (statically linked with version info)
 build-all:
-	@# Get git info and build timestamp
-	@[ "${VERSION}" ] || VERSION="$$(grep -E '^## \[[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1 | sed -E 's/.*\[([0-9]+.[0-9]+.[0-9]+)\].*/\1/')"
-	@[ "${VERSION}" ] || VERSION="0.0.0-dev"
-	@GIT_COMMIT="$$(git rev-parse HEAD 2>/dev/null || echo 'unknown')"
-	@BUILD_DATE="$$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\" -X 'github.com/jaepetto/nbjrnlctl/internal/version.Version=$${VERSION}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.GitCommit=$${GIT_COMMIT}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.BuildDate=$${BUILD_DATE}'" -o bin/nbjrnlctl-linux-amd64 ./cmd/nbjrnlctl
-	@CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -ldflags "-extldflags \"-static\" -X 'github.com/jaepetto/nbjrnlctl/internal/version.Version=$${VERSION}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.GitCommit=$${GIT_COMMIT}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.BuildDate=$${BUILD_DATE}'" -o bin/nbjrnlctl-linux-arm64 ./cmd/nbjrnlctl
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\" -X 'github.com/jaepetto/nbjrnlctl/internal/version.Version=$${VERSION}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.GitCommit=$${GIT_COMMIT}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.BuildDate=$${BUILD_DATE}'" -o bin/nbjrnlctl-darwin-amd64 ./cmd/nbjrnlctl
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -a -ldflags "-extldflags \"-static\" -X 'github.com/jaepetto/nbjrnlctl/internal/version.Version=$${VERSION}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.GitCommit=$${GIT_COMMIT}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.BuildDate=$${BUILD_DATE}'" -o bin/nbjrnlctl-darwin-arm64 ./cmd/nbjrnlctl
-	@CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\" -X 'github.com/jaepetto/nbjrnlctl/internal/version.Version=$${VERSION}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.GitCommit=$${GIT_COMMIT}' -X 'github.com/jaepetto/nbjrnlctl/internal/version.BuildDate=$${BUILD_DATE}'" -o bin/nbjrnlctl-windows-amd64.exe ./cmd/nbjrnlctl
+	@echo "Building version: 1.0.0"
+	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-extldflags "-static" -X "github.com/jaepetto/nbjrnlctl/internal/version.Version=1.0.0" -X "github.com/jaepetto/nbjrnlctl/internal/version.GitCommit={{`git rev-parse HEAD 2>/dev/null || echo unknown`}}" -X "github.com/jaepetto/nbjrnlctl/internal/version.BuildDate={{`date -u +%Y-%m-%dT%H:%M:%SZ`}}"' -o bin/nbjrnlctl-linux-amd64 ./cmd/nbjrnlctl
+	@CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -ldflags '-extldflags "-static" -X "github.com/jaepetto/nbjrnlctl/internal/version.Version=1.0.0" -X "github.com/jaepetto/nbjrnlctl/internal/version.GitCommit={{`git rev-parse HEAD 2>/dev/null || echo unknown`}}" -X "github.com/jaepetto/nbjrnlctl/internal/version.BuildDate={{`date -u +%Y-%m-%dT%H:%M:%SZ`}}"' -o bin/nbjrnlctl-linux-arm64 ./cmd/nbjrnlctl
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-extldflags "-static" -X "github.com/jaepetto/nbjrnlctl/internal/version.Version=1.0.0" -X "github.com/jaepetto/nbjrnlctl/internal/version.GitCommit={{`git rev-parse HEAD 2>/dev/null || echo unknown`}}" -X "github.com/jaepetto/nbjrnlctl/internal/version.BuildDate={{`date -u +%Y-%m-%dT%H:%M:%SZ`}}"' -o bin/nbjrnlctl-darwin-amd64 ./cmd/nbjrnlctl
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -a -ldflags '-extldflags "-static" -X "github.com/jaepetto/nbjrnlctl/internal/version.Version=1.0.0" -X "github.com/jaepetto/nbjrnlctl/internal/version.GitCommit={{`git rev-parse HEAD 2>/dev/null || echo unknown`}}" -X "github.com/jaepetto/nbjrnlctl/internal/version.BuildDate={{`date -u +%Y-%m-%dT%H:%M:%SZ`}}"' -o bin/nbjrnlctl-darwin-arm64 ./cmd/nbjrnlctl
+	@CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -ldflags '-extldflags "-static" -X "github.com/jaepetto/nbjrnlctl/internal/version.Version=1.0.0" -X "github.com/jaepetto/nbjrnlctl/internal/version.GitCommit={{`git rev-parse HEAD 2>/dev/null || echo unknown`}}" -X "github.com/jaepetto/nbjrnlctl/internal/version.BuildDate={{`date -u +%Y-%m-%dT%H:%M:%SZ`}}"' -o bin/nbjrnlctl-windows-amd64.exe ./cmd/nbjrnlctl
 
 # Clean build artifacts
 clean:
