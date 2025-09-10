@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- MIT LICENSE file for open source distribution
 - GitHub Actions workflow for automated build and test on push to main branch
 - Cross-platform binary builds for Linux, macOS, and Windows
 - Automated artifact upload for releases

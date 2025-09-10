@@ -5,6 +5,7 @@ Documentation review and synchronization. Ensuring all memory-bank files and doc
 
 ## Recent Changes
 Based on git history, the following significant changes have been made:
+- **Added MIT LICENSE file** - For open source distribution and proper licensing
 - **Removed unused verb commands** - Only the list command remains as it's the only implemented verb
 - **Modified configuration loading** - Now uses environment variables only (`nbjrnlctl_base_url` and `nbjrnlctl_api_key`) instead of file-based configuration
 - **Enhanced list command output** - Added width constraints and horizontal separators for better terminal compatibility
