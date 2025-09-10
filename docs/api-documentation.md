@@ -1,77 +1,29 @@
 # API Documentation: nb-jrnl-ctl
 
-**Date:** 2025-09-04
+**Date:** 2025-09-10
 **Author:** Cline (AI Assistant)
 **Version:** 1.0.0
 
 ## Overview
 
-The `nb-jrnl-ctl` tool interacts with the NetBox API to manage journal entries. It uses both REST API endpoints and GraphQL queries to provide comprehensive functionality.
+The `nb-jrnl-ctl` tool interacts with the NetBox API to review journal entries. It uses both REST API endpoints and GraphQL queries to provide efficient data retrieval with enhanced formatting.
 
 ## NetBox API Endpoints
 
 ### Authentication
 
-All API calls require a valid NetBox API token set in the configuration file (`~/.nbjrnlctl/config.json`).
+All API calls require a valid NetBox API token set via environment variables (`nbjrnlctl_api_key`).
 
 ### REST API Endpoints
 
 #### Device Management
 
 **GET `/api/dcim/devices/`**
-- **Purpose**: Retrieve devices from NetBox
+- **Purpose**: Retrieve devices from NetBox for device lookup
 - **Method**: GET
 - **Pagination**: Supports pagination with `next` and `previous` fields
 - **Response**: List of devices with `id` and `name` fields
-- **Used by**: Device lookup in all commands
-
-#### Journal Entry Management
-
-**POST `/api/dcim/devices/{id}/journal/`**
-- **Purpose**: Create a new journal entry for a specific device
-- **Method**: POST
-- **Path Parameters**:
-  - `id` (integer): Device ID
-- **Request Body**:
-  ```json
-  {
-    "comments": "string",
-    "kind": "string" // info, success, warning, danger
-  }
-  ```
-- **Response**: Created journal entry object
-- **Used by**: `create` command
-
-**GET `/api/extras/journal-entries/{id}/`**
-- **Purpose**: Retrieve a specific journal entry by ID
-- **Method**: GET
-- **Path Parameters**:
-  - `id` (integer): Journal entry ID
-- **Response**: Journal entry object with full details
-- **Used by**: `read` and `update` commands
-
-**PATCH `/api/extras/journal-entries/{id}/`**
-- **Purpose**: Update an existing journal entry
-- **Method**: PATCH
-- **Path Parameters**:
-  - `id` (integer): Journal entry ID
-- **Request Body**:
-  ```json
-  {
-    "comments": "string",
-    "kind": "string"
-  }
-  ```
-- **Response**: Updated journal entry object
-- **Used by**: `update` command
-
-**DELETE `/api/extras/journal-entries/{id}/`**
-- **Purpose**: Delete a journal entry
-- **Method**: DELETE
-- **Path Parameters**:
-  - `id` (integer): Journal entry ID
-- **Response**: 204 No Content on success
-- **Used by**: `delete` command
+- **Used by**: Device lookup in the list command
 
 ### GraphQL Endpoint
 
@@ -154,9 +106,7 @@ The GraphQL response is transformed from the API format to the internal `Journal
 
 ### HTTP Status Codes
 
-- **200 OK**: Successful GET/PATCH operations
-- **201 Created**: Successful POST operations
-- **204 No Content**: Successful DELETE operations
+- **200 OK**: Successful GET operations
 - **400 Bad Request**: Invalid request data
 - **401 Unauthorized**: Invalid or missing API token
 - **404 Not Found**: Resource not found
@@ -177,32 +127,16 @@ All API errors are caught and presented to users with descriptive messages inclu
 ### API Usage Patterns
 
 1. **Device Lookup**: Paginated requests to find devices by name
-2. **Batch Operations**: Single request per operation (no bulk operations yet)
-3. **Data Consistency**: Always fetch fresh data before updates
-4. **Error Recovery**: Graceful handling of network and API errors
-
-## Future API Extensions
-
-### Planned Enhancements
-
-1. **Bulk Operations**: Support for creating/updating multiple entries
-2. **Advanced Filtering**: Query parameters for filtering journal entries
-3. **Export Formats**: Additional response formats (CSV, JSON arrays)
-4. **Webhook Support**: Real-time notifications for journal changes
-
-### Potential New Endpoints
-
-- **Search**: `/api/extras/journal-entries/?search=term`
-- **Filtering**: `/api/extras/journal-entries/?device_id=id&kind=type`
-- **Bulk Operations**: `/api/extras/journal-entries/bulk/`
+2. **Data Retrieval**: Single GraphQL request for efficient data fetching
+3. **Error Recovery**: Graceful handling of network and API errors
 
 ## Security Considerations
 
 ### Token Management
 
-- API tokens are stored in user's home directory with restricted permissions
+- API tokens are provided via environment variables only
 - Tokens are never logged or displayed in output
-- Configuration file creation uses secure file permissions (0644)
+- No file-based credential storage eliminates security risks
 
 ### Data Protection
 
@@ -213,17 +147,18 @@ All API errors are caught and presented to users with descriptive messages inclu
 
 ## Performance Optimization
 
-### Caching Strategy
-
-Currently no caching is implemented, but future versions could cache:
-
-- Device ID lookups for frequently accessed devices
-- Configuration data
-- Recently accessed journal entries
-
 ### Request Optimization
 
 - Minimal field selection in GraphQL queries
 - Single request per user operation
-- Efficient pagination for large datasets
+- Efficient pagination for large device datasets
 - Connection reuse through HTTP client pooling
+
+## Current Implementation Status
+
+The tool currently implements read-only functionality focused on journal entry review:
+
+- **Device Lookup**: REST API calls for efficient device ID resolution
+- **Journal Entry Listing**: GraphQL queries for rich data retrieval
+- **Enhanced Display**: Local processing for formatted output with colors and emojis
+- **No Write Operations**: Focus on stable, read-only functionality for reliability

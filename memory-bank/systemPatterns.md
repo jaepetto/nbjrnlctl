@@ -10,7 +10,7 @@ The system follows a layered architecture pattern with clear separation of conce
 ## Key Design Patterns
 
 ### Command Pattern
-Commands are organized by operation (create, read, update, delete, list) rather than by entity, providing a consistent user experience where verbs remain constant and objects vary.
+Commands are organized by operation, currently focusing on the list operation for journal entries, providing a consistent user experience where verbs remain constant and objects vary.
 
 ### Client Pattern
 API interactions are encapsulated in a dedicated client (netbox.go) that handles HTTP communication, authentication, and basic error handling, abstracting these concerns from business logic.
@@ -19,7 +19,7 @@ API interactions are encapsulated in a dedicated client (netbox.go) that handles
 Data structures are defined as Go structs in models package, providing type safety and clear data contracts between layers.
 
 ### Configuration Pattern
-Utilities for configuration management are centralized, ensuring consistent handling of settings across all components.
+Utilities for configuration management are centralized, ensuring consistent handling of settings across all components using environment variables only.
 
 ## Component Relationships
 

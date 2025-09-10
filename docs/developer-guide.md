@@ -1,12 +1,12 @@
 # Developer Guide: nb-jrnl-ctl
 
-**Date:** 2025-09-04
+**Date:** 2025-09-10
 **Author:** Cline (AI Assistant)
 **Version:** 1.0.0
 
 ## Project Overview
 
-`nb-jrnl-ctl` is a Go-based command-line tool for managing NetBox journal entries. It provides a streamlined interface for creating, reading, updating, and deleting journal entries through NetBox's API.
+`nb-jrnl-ctl` is a Go-based command-line tool for reviewing NetBox journal entries. It provides a streamlined interface for listing and viewing journal entries through NetBox's API with enhanced formatting and usability.
 
 ## Architecture
 
@@ -23,11 +23,12 @@ CLI Layer (cmd/) → Business Logic (internal/commands/) → Data Access (intern
 │   └── nbjrnlctl/      # Primary CLI entry point
 ├── internal/           # Private application code
 │   ├── client/         # NetBox API client
-│   ├── commands/       # Command implementations
+│   ├── commands/       # Command implementations (list.go, version.go)
 │   └── models/         # Data structures
 ├── pkg/                # Public libraries
 │   └── utils/          # Shared utilities
 ├── docs/               # Documentation
+├── memory-bank/        # Memory bank documentation
 ├── go.mod             # Go module definition
 └── go.sum             # Dependency checksums
 ```
@@ -36,22 +37,28 @@ CLI Layer (cmd/) → Business Logic (internal/commands/) → Data Access (intern
 
 ### Prerequisites
 
-- Go 1.19 or higher
+- Go 1.24.5 or higher
 - Access to a NetBox instance
 - NetBox API token with appropriate permissions
 
 ### Building from Source
 
+Using the Justfile (recommended):
 ```bash
 # Clone the repository
 git clone https://github.com/jaepetto/nbjrnlctl.git
 cd nbjrnlctl
 
-# Build the binary
-go build -o nbjrnlctl ./cmd/nbjrnlctl
+# Build the binary with version info
+just build
 
-# Or install directly
-go install github.com/jaepetto/nbjrnlctl/cmd/nbjrnlctl@latest
+# Or install directly with version info
+just install
+```
+
+Manual build:
+```bash
+go build -o nbjrnlctl ./cmd/nbjrnlctl
 ```
 
 ### Development Setup
@@ -66,11 +73,15 @@ go install github.com/jaepetto/nbjrnlctl/cmd/nbjrnlctl@latest
 
 ### Main Application (`cmd/nbjrnlctl/main.go`)
 
-The entry point that initializes the Cobra command structure and registers all commands.
+The entry point that initializes the Cobra command structure and registers the available commands (currently list and version).
 
 ### Commands (`internal/commands/`)
 
 Each command is implemented as a separate file with a corresponding function that returns a `*cobra.Command`.
+
+**Current commands:**
+1. `list.go` - Lists journal entries with enhanced formatting
+2. `version.go` - Displays version information
 
 **Example pattern:**
 ```go
@@ -94,10 +105,11 @@ func ListCmd() *cobra.Command {
 
 Handles all HTTP communication with the NetBox API:
 
-- REST API calls for CRUD operations
-- GraphQL queries for complex data fetching
+- REST API calls for device lookup
+- GraphQL queries for efficient journal entry fetching
 - Error handling and response parsing
 - Authentication management
+- Smart kind extraction from display fields
 
 ### Models (`internal/models/journal.go`)
 
@@ -107,9 +119,8 @@ Defines the data structures used throughout the application with proper JSON tag
 
 Provides shared functionality:
 
-- Configuration loading and saving
-- Hostname detection
-- File system operations
+- Environment variable-based configuration loading
+- Hostname detection with fallback mechanisms
 
 ## Adding New Features
 
@@ -158,6 +169,7 @@ Recommended test directory structure:
 │   │   └── netbox_test.go
 │   ├── commands/
 │   │   └── list_test.go
+│   │   └── version_test.go
 │   └── models/
 │       └── journal_test.go
 └── pkg/
@@ -189,7 +201,7 @@ if err != nil {
 
 ### Environment Variables
 
-The application uses environment variables for configuration instead of config files:
+The application uses environment variables exclusively for configuration (no config files):
 
 - `nbjrnlctl_base_url`: The base URL of your NetBox instance (e.g., `https://your-netbox-instance.com`)
 - `nbjrnlctl_api_key`: Your NetBox API token with appropriate permissions
@@ -216,6 +228,7 @@ API tokens are passed in the `Authorization: Token {token}` header.
 - Check HTTP status codes before parsing responses
 - Use proper JSON unmarshaling with struct tags
 - Handle pagination for list endpoints
+- Parse GraphQL responses with nested data structures
 
 ## Contributing
 
@@ -271,7 +284,7 @@ Maintain `CHANGELOG.md` with all notable changes following the Keep a Changelog 
 
 ### Common Issues
 
-1. **Authentication Errors**: Check API token and NetBox URL in config
+1. **Authentication Errors**: Check API token and NetBox URL in environment variables
 2. **Device Not Found**: Verify device exists in NetBox
 3. **Network Issues**: Check connectivity to NetBox instance
 4. **Permission Errors**: Verify API token permissions
@@ -301,25 +314,25 @@ Currently, the application uses `fmt` for output. Future improvements could incl
 1. **Never log sensitive data** (API tokens, passwords)
 2. **Validate all inputs** to prevent injection attacks
 3. **Use HTTPS** for all API communications
-4. **Store credentials securely** with appropriate file permissions
+4. **Store credentials securely** using environment variables only
 
 ### Credential Storage
 
-Configuration files are stored with user-only read/write permissions (0600) to protect API tokens.
+Environment variables are the only method for storing credentials, eliminating file-based security risks.
 
 ## Future Development
 
 ### Roadmap
 
 1. **Testing Infrastructure**: Add comprehensive test suite
-2. **Advanced Features**: Bulk operations, advanced filtering
+2. **Advanced Features**: Additional command implementations
 3. **Performance**: Caching, connection pooling optimization
 4. **Usability**: Shell completion, better help system
 5. **Reliability**: Retry logic, better error recovery
 
 ### Extension Points
 
-1. **New Object Types**: Support for other NetBox objects
+1. **New Commands**: Additional journal entry operations
 2. **Output Formats**: JSON, CSV export options
 3. **Integration**: Webhook support, notification systems
 4. **Automation**: Scripting support, batch processing
@@ -328,14 +341,14 @@ Configuration files are stored with user-only read/write permissions (0600) to p
 
 ### Common Error Messages
 
-- **"Error loading config"**: Config file corrupted or inaccessible
+- **"Error loading config"**: Missing required environment variables
 - **"Error finding device"**: Device doesn't exist in NetBox
 - **"Unexpected status code"**: API returned unexpected response
 - **"Invalid journal ID"**: Malformed or non-existent journal entry ID
 
 ### Debugging Steps
 
-1. Verify configuration file contents
+1. Verify environment variable configuration
 2. Test NetBox API connectivity manually
 3. Check NetBox logs for server-side errors
 4. Enable verbose output (future feature)
@@ -344,7 +357,8 @@ Configuration files are stored with user-only read/write permissions (0600) to p
 
 ### Direct Dependencies
 
-- `github.com/spf13/cobra` - CLI framework
+- `github.com/spf13/cobra` v1.8.0 - CLI framework
+- `github.com/jedib0t/go-pretty/v6` v6.6.8 - Table formatting
 - Go standard library
 
 ### Indirect Dependencies
@@ -354,7 +368,7 @@ Managed automatically by Go modules.
 ### Updating Dependencies
 
 ```bash
-go get -u github.com/spf13/cobra
+go get -u ./...
 go mod tidy
 ```
 
@@ -365,11 +379,11 @@ go mod tidy
 The project uses a `justfile` for common development tasks. Here are the available commands:
 
 ```bash
-just build          # Build the application with version info
-just install        # Install the application globally with version info
+just build          # Build the application with version info (statically linked)
+just install        # Install the application globally with version info (statically linked)
 just run            # Run the application
 just run-with-args  # Run with custom arguments
-just build-all      # Build for all platforms with version info
+just build-all      # Build for all platforms with version info (statically linked)
 just clean          # Clean build artifacts
 just test           # Run tests
 just test-cover     # Run tests with coverage
@@ -404,14 +418,12 @@ Both the `build` and `install` commands use the same version injection mechanism
 
 ```bash
 # Build for different platforms (with version info)
-GOOS=linux GOARCH=amd64 go build -o nbjrnlctl-linux ./cmd/nbjrnlctl
-GOOS=windows GOARCH=amd64 go build -o nbjrnlctl-windows.exe ./cmd/nbjrnlctl
-GOOS=darwin GOARCH=amd64 go build -o nbjrnlctl-macos ./cmd/nbjrnlctl
+just build-all
 ```
 
 ### Release Artifacts
 
-Single binary distribution with no external dependencies makes deployment simple.
+Single binary distribution with no external dependencies makes deployment simple. All binaries are statically linked for maximum portability.
 
 ## Documentation Updates
 
@@ -421,3 +433,4 @@ Keep documentation synchronized with code changes:
 2. Update developer guide for architectural changes
 3. Update API documentation for endpoint changes
 4. Update changelog for all notable changes
+5. Update memory-bank documentation to reflect current state

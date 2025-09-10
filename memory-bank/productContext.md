@@ -1,32 +1,31 @@
 # Product Context: nb-jrnl-ctl
 
 ## Problem Statement
-Infrastructure teams using NetBox often need to document changes, maintenance activities, and operational notes. Currently, this process involves manual web interface interactions or complex API scripting, which can be time-consuming and error-prone.
+Infrastructure teams using NetBox often need to review and document changes, maintenance activities, and operational notes. Currently, this process involves manual web interface interactions or complex API scripting, which can be time-consuming and error-prone.
 
 ## Solution Value
-nb-jrnl-ctl provides a specialized command-line interface that streamlines journal entry management in NetBox, enabling faster documentation of infrastructure changes while maintaining consistency and reducing human error.
+nb-jrnl-ctl provides a specialized command-line interface that streamlines journal entry review in NetBox, enabling faster access to infrastructure documentation while maintaining consistency and reducing human error.
 
 ## User Experience Goals
-- Simple, intuitive command structure that mirrors common CRUD operations
+- Simple, intuitive command structure focused on journal entry listing
 - Minimal configuration required for basic operations
 - Clear error messages and help documentation
-- Consistent output formatting for script integration
+- Consistent, readable output formatting for quick review
 - Device-centric workflow for common use cases
 
 ## Core Workflows
-1. **Quick Journal Creation**: Users can rapidly create new journal entries with minimal parameters
-2. **Journal Review**: Users can list and read existing journal entries for devices or globally
-3. **Journal Updates**: Users can modify existing journal entries when corrections are needed
-4. **Journal Cleanup**: Users can delete obsolete or incorrect journal entries
+1. **Journal Review**: Users can list and review existing journal entries for devices with enhanced formatting
+2. **Quick Device Lookup**: Automatic hostname detection for local machine journal review
 
 ## Success Scenarios
-- Network administrator documents a router configuration change in under 30 seconds
-- DevOps engineer automates journal entry creation as part of deployment scripts
-- Infrastructure team reviews all journal entries for a device during troubleshooting
+- Network administrator quickly reviews all journal entries for a device during troubleshooting
+- DevOps engineer checks recent changes and notes for infrastructure components
 - Operations manager generates reports from journal data through command output parsing
+- System administrators review change history without accessing the web interface
 
 ## Non-Goals
 - Full NetBox administration interface
+- Journal entry creation, modification, or deletion (focus on read-only review)
 - Complex journal entry formatting or rich text support
 - Real-time collaboration features
 - Advanced search and filtering beyond basic listing capabilities
@@ -36,3 +35,4 @@ nb-jrnl-ctl provides a specialized command-line interface that streamlines journ
 - Compatibility with NetBox API versioning
 - Proper handling of NetBox data models and relationships
 - Respect for NetBox rate limiting and API best practices
+- Efficient GraphQL querying for optimized data retrieval
