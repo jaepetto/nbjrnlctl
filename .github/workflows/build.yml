@@ -50,3 +50,34 @@ jobs:
         name: nbjrnlctl-binaries
         path: bin/
         if-no-files-found: error
+
+    - name: Create GitHub Release
+      if: github.ref == 'refs/heads/main'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0
+        release_name: Release v1.0.0
+        draft: false
+        prerelease: false
+        body: |
+          Automated release of nbjrnlctl version 1.0.0
+
+          ## Changes
+          See [CHANGELOG.md](https://github.com/jaepetto/nbjrnlctl/blob/main/CHANGELOG.md) for detailed changes.
+
+          ## Binaries
+          This release includes pre-built binaries for:
+          - Linux AMD64
+          - Linux ARM64
+          - Darwin AMD64 (macOS Intel)
+          - Darwin ARM64 (macOS Apple Silicon)
+          - Windows AMD64
+
+    - name: Upload Release Assets
+      if: github.ref == 'refs/heads/main'
+      run: |
+        gh release upload v1.0.0 bin/* --clobber
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -79,6 +79,7 @@
 - ✅ **Removed unused command implementations (create, read, update, delete, device) - only list command remains as it's the only implemented verb**
 - ✅ **Modified configuration loading to use environment variables only (`nbjrnlctl_base_url` and `nbjrnlctl_api_key`) instead of file-based configuration for better server deployment support**
 - ✅ **Added GitHub Actions workflow for automated build and test on push to main branch with cross-platform binary builds**
+- ✅ **Enhanced GitHub Actions workflow with automatic GitHub release creation and pre-built binary uploads**
 
 ## Next Milestones
 1. Add automated testing infrastructure

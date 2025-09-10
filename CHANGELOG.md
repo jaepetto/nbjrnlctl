@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions workflow for automated build and test on push to main branch
 - Cross-platform binary builds for Linux, macOS, and Windows
 - Automated artifact upload for releases
+- Automatic GitHub release creation with pre-built binaries
 
 ### Changed
 - Comprehensive documentation review and synchronization
