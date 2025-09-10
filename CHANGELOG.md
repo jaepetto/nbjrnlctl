@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete developer guide and best practices
 - Documentation directory structure
 - Justfile for build automation and development workflow
+- Built-in version tracking system with detailed build metadata
+- Version command to display application version information
+- Compile-time version injection using ldflags
 
 ### Changed
 - Updated justfile build commands to create statically linked binaries for better portability

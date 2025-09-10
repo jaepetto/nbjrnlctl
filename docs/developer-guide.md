@@ -187,18 +187,18 @@ if err != nil {
 
 ## Configuration Management
 
-### Config File Location
+### Environment Variables
 
-- **Unix/Linux/macOS**: `~/.nbjrnlctl/config.json`
-- **Windows**: `%USERPROFILE%\.nbjrnlctl\config.json`
+The application uses environment variables for configuration instead of config files:
 
-### Config Structure
+- `nbjrnlctl_base_url`: The base URL of your NetBox instance (e.g., `https://your-netbox-instance.com`)
+- `nbjrnlctl_api_key`: Your NetBox API token with appropriate permissions
 
-```json
-{
-  "netbox_url": "https://your-netbox-instance.com",
-  "api_token": "your-api-token"
-}
+Example usage:
+```bash
+export nbjrnlctl_base_url="https://your-netbox-instance.com"
+export nbjrnlctl_api_key="your-api-token"
+nbjrnlctl list
 ```
 
 ## API Integration
@@ -360,10 +360,50 @@ go mod tidy
 
 ## Build and Distribution
 
+### Build Automation
+
+The project uses a `justfile` for common development tasks. Here are the available commands:
+
+```bash
+just build          # Build the application with version info
+just install        # Install the application globally with version info
+just run            # Run the application
+just run-with-args  # Run with custom arguments
+just build-all      # Build for all platforms with version info
+just clean          # Clean build artifacts
+just test           # Run tests
+just test-cover     # Run tests with coverage
+just fmt            # Format code
+just vet            # Vet code for issues
+just tidy           # Tidy go modules
+just deps           # Download dependencies
+just update-deps    # Update dependencies
+just audit          # Check for security vulnerabilities
+just docs           # Generate documentation
+just version        # Show Go version information
+just help           # Show all available commands
+```
+
+### Version Management
+
+The application includes built-in version tracking with detailed build metadata:
+
+- **Semantic Version**: Hardcoded to "1.0.0" during build
+- **Git Commit**: Embedded commit hash at build time (dynamically injected)
+- **Build Date**: Timestamp when binary was compiled (dynamically injected)
+- **Go Version**: Go compiler version used (dynamically detected at runtime)
+- **Platform**: Target OS and architecture (dynamically detected at runtime)
+
+Version information is injected at compile time using ldflags and can be accessed via:
+- `nbjrnlctl version` command (shows detailed build information)
+- `nbjrnlctl --version` flag (shows semantic version only)
+
+Both the `build` and `install` commands use the same version injection mechanism to ensure consistency.
+
 ### Cross-Platform Builds
 
 ```bash
-# Build for different platforms
+# Build for different platforms (with version info)
 GOOS=linux GOARCH=amd64 go build -o nbjrnlctl-linux ./cmd/nbjrnlctl
 GOOS=windows GOARCH=amd64 go build -o nbjrnlctl-windows.exe ./cmd/nbjrnlctl
 GOOS=darwin GOARCH=amd64 go build -o nbjrnlctl-macos ./cmd/nbjrnlctl

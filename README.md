@@ -25,13 +25,17 @@ go build -o nbjrnlctl ./cmd/nbjrnlctl
 
 ## Configuration
 
-On first run, the tool will create a config file at `~/.nbjrnlctl/config.json`. Edit this file to add your Netbox URL and API token:
+The tool uses environment variables for configuration:
 
-```json
-{
-  "netbox_url": "https://your-netbox-instance.com",
-  "api_token": "your-api-token"
-}
+```bash
+export nbjrnlctl_base_url="https://your-netbox-instance.com"
+export nbjrnlctl_api_key="your-api-token"
+```
+
+Or set them inline when running the command:
+
+```bash
+nbjrnlctl_base_url="https://your-netbox-instance.com" nbjrnlctl_api_key="your-api-token" nbjrnlctl list
 ```
 
 ## Usage
@@ -47,6 +51,16 @@ nbjrnlctl list
 
 # Limit the number of entries
 nbjrnlctl list switch-01 --limit 10
+```
+
+### Check version information
+
+```bash
+# Display version information
+nbjrnlctl version
+
+# Display version using the built-in flag
+nbjrnlctl --version
 ```
 
 ## Documentation
