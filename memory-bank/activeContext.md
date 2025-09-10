@@ -16,6 +16,7 @@ Based on git history, the following significant changes have been made:
 - **Updated justfile** - For build automation and development workflow
 - **Constrained table width** - To 80 characters for better terminal compatibility
 - **Added horizontal line separators** - Between all rows for improved visual separation and readability
+- **Added GitHub Actions workflow** - For automated build and test on push to main branch with cross-platform binary builds
 
 ## Next Steps
 - Update all documentation files to accurately reflect current implementation

@@ -8,16 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- GitHub Actions workflow for automated build and test on push to main branch
+- Cross-platform binary builds for Linux, macOS, and Windows
+- Automated artifact upload for releases
+
+### Changed
 - Comprehensive documentation review and synchronization
 - Review report documenting the alignment process
 - Updated all documentation to reflect current implementation reality
-
-### Changed
-- All documentation files synchronized with current codebase state
-- Memory-bank files updated to reflect focused implementation
-- Removed all references to removed command functionality
-- Updated configuration documentation to environment variables only
-- Enhanced user documentation with current feature descriptions
 
 ## [1.0.0] - 2025-09-04
 
